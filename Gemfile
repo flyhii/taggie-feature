@@ -33,3 +33,7 @@ group :development do
   gem 'rerun', '~> 0.0'
   gem 'rubocop', '~> 1.0'
 end
+
+group :translation do
+  gem 'ruby-openai'
+end

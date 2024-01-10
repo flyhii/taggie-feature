@@ -1,37 +1,32 @@
 # frozen_string_literal: true
 
-require 'http'
-require 'httparty'
+# require 'http'
+# require 'httparty'
 require 'yaml'
+require 'openai'
+require_relative 'config/environment'
 
 module FlyHii
-  module OpenAI
+  module Openai
     # Library for Instagram Web API
     class Api
-      config = YAML.safe_load_file('config/secrets.yml')
-      access_token = config['OPENAI_TOKEN']
-      fields = 'account_type,id,media_count,username'
-      # API_IG_ROOT = 'https://graph.facebook.com/v18.0'
-      # FIELDS = 'id,caption'
+      # config = YAML.safe_load_file('config/secrets.yml')
+      access_token = FlyHii::App.config.OPENAI_TOKEN
 
-      openAI_response = {}
-      openAI_results = {}
+      target_language = 'Mandarin'
+      text = 'Hello, my name is John. I am from the United States.'
 
-      # HAPPY account info request
-      account_url = "https://graph.instagram.com/#{user_id}?fields=#{fields}&access_token=#{access_token}"
-      openAI_response[account_url] = HTTParty.get(account_url)
-      account_info = openAI_response[account_url].parsed_response
+      client = OpenAI::Client.new(access_token:)
 
-      openAI_results['account_type'] = account_info['account_type']
-      # should be personal
+      response = client.chat(
+        parameters: {
+          model: 'gpt-3.5-turbo', # Required.
+          messages: [{ role: 'user', content: "Translate the following text into #{target_language}: #{text}" }],
+          temperature: 0.7
+        }
+      )
 
-      openAI_results['media_count'] = account_info['media_count']
-      # should be 1
-
-      openAI_results['username'] = account_info['username']
-      # should be ???
-
-      File.write('spec/fixtures/openAI_results.yml', openAI_results.to_yaml)
+      File.write('spec/fixtures/openAI_results.yml', response.to_yaml)
 
       # def initialize(token, user_id)
       #   @ig_token = token
