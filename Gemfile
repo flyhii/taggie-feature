@@ -35,5 +35,6 @@ group :development do
 end
 
 group :translation do
-  gem 'ruby-openai'
+  gem 'google-cloud-translate'
+  # gem 'ruby-openai'
 end
