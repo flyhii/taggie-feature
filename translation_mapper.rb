@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'google_translation_api'
+
 module FlyHii
   # Provides access to hashtag data
   module Googletranslate
@@ -12,8 +14,8 @@ module FlyHii
       end
 
       def translate(target_language, content)
-        puts translated_content = @gateway.translation(target_language, content)
-        translated_content
+        # puts @token
+        @gateway.translation(target_language, content)
       end
     end
   end

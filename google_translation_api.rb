@@ -28,7 +28,7 @@ module FlyHii
         end
 
         def translation_url(target_language, content)
-          url = "#{@resource_root}?target=#{target_language}&key=#{@google_token}&q=#{content}"
+          puts url = "#{@resource_root}?target=#{target_language}&key=#{@token}&q=#{content}"
           GoogleApiResponseHandler.handle(url)
         end
       end
